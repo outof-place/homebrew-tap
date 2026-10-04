@@ -12,7 +12,7 @@ class ClaudeAcc < Formula
 
   def install
     cd "app" do
-      system "swift", "build", "--disable-sandbox", *std_swift_args
+      system "swift", "build", *std_swift_args
       contents = prefix/"Claude Acc.app/Contents"
       (contents/"MacOS").install ".build/release/ClaudeAcc"
       contents.install "Info.plist"
@@ -56,7 +56,7 @@ class ClaudeAcc < Formula
 
   test do
     assert_path_exists prefix/"Claude Acc.app/Contents/MacOS/ClaudeAcc"
-    assert_match "next dev", shell_output("/usr/bin/python3 #{libexec}/devguard.py --help")
+    assert_match "\"mode\"", shell_output("/usr/bin/python3 #{libexec}/devguard.py status --json")
     assert_match "rpm", shell_output("#{libexec}/fanctl read")
   end
 end
