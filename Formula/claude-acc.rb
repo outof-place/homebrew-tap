@@ -1,8 +1,8 @@
 class ClaudeAcc < Formula
   desc "Menu bar control room for a Mac that runs Claude Code agents all day"
   homepage "https://github.com/outof-place/claude-acc"
-  url "https://github.com/outof-place/claude-acc/archive/refs/tags/v1.0.2.tar.gz"
-  sha256 "0892ed30eebd0df01cf2db3420a3a661713bda48cda82f1a489e8acd31193184"
+  url "https://github.com/outof-place/claude-acc/archive/refs/tags/v1.1.0.tar.gz"
+  sha256 "d8e4fe0cbcdf71ca29165ecd6460c454ead80939c9b51438f0b58bf5c2f4b9ec"
   license "MIT"
   head "https://github.com/outof-place/claude-acc.git", branch: "main"
 
@@ -20,8 +20,8 @@ class ClaudeAcc < Formula
     end
     system "codesign", "--force", "--sign", "-", prefix/"Claude Acc.app"
 
-    libexec.install "accswitch.py", "janitor.py", "devguard.py", "janitor-root.sh",
-                    "setup.sh", "install-fans.sh", "launchd"
+    libexec.install "accswitch.py", "janitor.py", "devguard.py", "perf.py", "janitor-root.sh",
+                    "perf-root.sh", "setup.sh", "install-fans.sh", "launchd"
 
     # setup.sh copies everything into the user's account; opt paths survive upgrades
     (bin/"claude-acc-setup").write <<~SH
@@ -58,5 +58,6 @@ class ClaudeAcc < Formula
     assert_path_exists prefix/"Claude Acc.app/Contents/MacOS/ClaudeAcc"
     assert_match "\"mode\"", shell_output("/usr/bin/python3 #{libexec}/devguard.py status --json")
     assert_match "rpm", shell_output("#{libexec}/fanctl read")
+    assert_match "\"on\"", shell_output("/usr/bin/python3 #{libexec}/perf.py ultra status --json")
   end
 end
