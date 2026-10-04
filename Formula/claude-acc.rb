@@ -1,8 +1,8 @@
 class ClaudeAcc < Formula
   desc "Menu bar control room for a Mac that runs Claude Code agents all day"
   homepage "https://github.com/outof-place/claude-acc"
-  url "https://github.com/outof-place/claude-acc/archive/refs/tags/v1.1.1.tar.gz"
-  sha256 "58a8b923c232328377c15782c8b19438d41051824f44e947dc91610a84ff5833"
+  url "https://github.com/outof-place/claude-acc/archive/refs/tags/v1.2.0.tar.gz"
+  sha256 "f0941c5817507532a64f92db14ce6f694544c202330f78e993c864930e819e50"
   license "MIT"
   head "https://github.com/outof-place/claude-acc.git", branch: "main"
 
@@ -21,7 +21,7 @@ class ClaudeAcc < Formula
     system "codesign", "--force", "--sign", "-", prefix/"Claude Acc.app"
 
     libexec.install "accswitch.py", "janitor.py", "devguard.py", "perf.py", "janitor-root.sh",
-                    "perf-root.sh", "setup.sh", "install-fans.sh", "launchd"
+                    "perf-root.sh", "setup.sh", "install-fans.sh", "launchd", "hooks"
 
     # setup.sh copies everything into the user's account; opt paths survive upgrades
     (bin/"claude-acc-setup").write <<~SH
