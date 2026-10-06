@@ -1,8 +1,8 @@
 class ClaudeAcc < Formula
   desc "Menu bar control room for a Mac that runs Claude Code agents all day"
   homepage "https://github.com/outof-place/claude-acc"
-  url "https://github.com/outof-place/claude-acc/archive/refs/tags/v1.8.0.tar.gz"
-  sha256 "d0947c0d1a5956f97370a7b3586e56e3226ec6e21b73b7549b62e525ca40bcf7"
+  url "https://github.com/outof-place/claude-acc/archive/refs/tags/v1.9.0.tar.gz"
+  sha256 "4eee8085373d7e789b10c1e3682776c7b63e81d5da9c57ea64b29304bba4adc1"
   license "MIT"
   head "https://github.com/outof-place/claude-acc.git", branch: "main"
 
@@ -16,7 +16,7 @@ class ClaudeAcc < Formula
       contents = prefix/"Claude Acc.app/Contents"
       (contents/"MacOS").install ".build/release/ClaudeAcc"
       contents.install "Info.plist"
-      libexec.install ".build/release/fanctl", ".build/release/claude-acc-hook"
+      libexec.install ".build/release/fanctl", ".build/release/claude-acc-hook", ".build/release/claude-acc-pause"
     end
     system "codesign", "--force", "--sign", "-", prefix/"Claude Acc.app"
 
@@ -63,5 +63,6 @@ class ClaudeAcc < Formula
     assert_match "\"on\"", shell_output("/usr/bin/python3 #{libexec}/perf.py ultra status --json")
     assert_match "Aktualizacje", shell_output("/usr/bin/python3 #{libexec}/updates.py status")
     assert_path_exists libexec/"claude-acc-hook"
+    assert_path_exists libexec/"claude-acc-pause"
   end
 end
