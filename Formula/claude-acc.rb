@@ -1,8 +1,8 @@
 class ClaudeAcc < Formula
   desc "Menu bar control room for a Mac that runs Claude Code agents all day"
   homepage "https://github.com/outof-place/claude-acc"
-  url "https://github.com/outof-place/claude-acc/archive/refs/tags/v1.3.4.tar.gz"
-  sha256 "fcbe692f3697d68858b60da2ce655043ea221cea9a94369cf6bb2c429fca4379"
+  url "https://github.com/outof-place/claude-acc/archive/refs/tags/v1.6.0.tar.gz"
+  sha256 "2856804a2bf6352faa5db25fd9425539bd14705b7b29ca61ebb46d8aa0af0e44"
   license "MIT"
   head "https://github.com/outof-place/claude-acc.git", branch: "main"
 
@@ -16,17 +16,19 @@ class ClaudeAcc < Formula
       contents = prefix/"Claude Acc.app/Contents"
       (contents/"MacOS").install ".build/release/ClaudeAcc"
       contents.install "Info.plist"
-      libexec.install ".build/release/fanctl"
+      libexec.install ".build/release/fanctl", ".build/release/claude-acc-hook"
     end
     system "codesign", "--force", "--sign", "-", prefix/"Claude Acc.app"
 
-    libexec.install "accswitch.py", "janitor.py", "devguard.py", "perf.py", "sched.py", "janitor-root.sh",
-                    "perf-root.sh", "setup.sh", "install-fans.sh", "launchd", "hooks"
+    # setup.sh copies every *.py next to it, so new scripts come along without touching this list
+    libexec.install Dir["*.py"], "janitor-root.sh", "perf-root.sh", "setup.sh", "install-fans.sh",
+                    "install-fsguard.sh", "launchd", "hooks"
 
     # setup.sh copies everything into the user's account; opt paths survive upgrades
     (bin/"claude-acc-setup").write <<~SH
       #!/bin/bash
-      exec "#{opt_libexec}/setup.sh" --app "#{opt_prefix}/Claude Acc.app" --fanctl "#{opt_libexec}/fanctl" "$@"
+      exec "#{opt_libexec}/setup.sh" --app "#{opt_prefix}/Claude Acc.app" --fanctl "#{opt_libexec}/fanctl" \\
+        --hook "#{opt_libexec}/claude-acc-hook" "$@"
     SH
     # the real command lives in ~/.local/bin, which may not be on PATH
     (bin/"claude-acc").write <<~SH
@@ -59,5 +61,7 @@ class ClaudeAcc < Formula
     assert_match "\"mode\"", shell_output("/usr/bin/python3 #{libexec}/devguard.py status --json")
     assert_match "rpm", shell_output("#{libexec}/fanctl read")
     assert_match "\"on\"", shell_output("/usr/bin/python3 #{libexec}/perf.py ultra status --json")
+    assert_match "Aktualizacje", shell_output("/usr/bin/python3 #{libexec}/updates.py status")
+    assert_path_exists libexec/"claude-acc-hook"
   end
 end
