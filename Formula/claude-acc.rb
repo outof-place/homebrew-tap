@@ -1,8 +1,8 @@
 class ClaudeAcc < Formula
   desc "Menu bar control room for a Mac that runs Claude Code agents all day"
   homepage "https://github.com/outof-place/claude-acc"
-  url "https://github.com/outof-place/claude-acc/archive/refs/tags/v1.13.0.tar.gz"
-  sha256 "78bf85ee88ba3553b763517acb325b1b199cce66a9cc514d119278d9f79477fd"
+  url "https://github.com/outof-place/claude-acc/archive/refs/tags/v1.14.0.tar.gz"
+  sha256 "53a3ad335866a4bd9824e5578c52d4b8477c7ea9b28b3b1d93da88a92512c357"
   license "MIT"
   head "https://github.com/outof-place/claude-acc.git", branch: "main"
 
@@ -22,7 +22,7 @@ class ClaudeAcc < Formula
 
     # setup.sh copies every *.py next to it, so new scripts come along without touching this list
     libexec.install Dir["*.py"], "janitor-root.sh", "perf-root.sh", "setup.sh", "install-fans.sh",
-                    "install-fsguard.sh", "launchd", "hooks", "skills"
+                    "install-fsguard.sh", "launchd", "hooks", "skills", "sdk"
 
     # setup.sh copies everything into the user's account; opt paths survive upgrades
     (bin/"claude-acc-setup").write <<~SH
