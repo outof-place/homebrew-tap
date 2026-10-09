@@ -1,8 +1,8 @@
 class ClaudeAcc < Formula
   desc "Menu bar control room for a Mac that runs Claude Code agents all day"
   homepage "https://github.com/outof-place/claude-acc"
-  url "https://github.com/outof-place/claude-acc/archive/refs/tags/v1.25.3.tar.gz"
-  sha256 "536771ba4ad2de07981a621c04af04c9446a8e2bb7bf462a181f0e11df23e349"
+  url "https://github.com/outof-place/claude-acc/archive/refs/tags/v1.26.0.tar.gz"
+  sha256 "e1f1e241db7365907e79c37e3a431cd57cf78f35e64a920faf46ca513335354e"
   license "MIT"
   head "https://github.com/outof-place/claude-acc.git", branch: "main"
 
@@ -27,7 +27,7 @@ class ClaudeAcc < Formula
 
     # setup.sh copies every *.py next to it, so new scripts come along without touching this list
     libexec.install Dir["*.py"], "janitor-root.sh", "perf-root.sh", "setup.sh", "install-fans.sh",
-                    "install-fsguard.sh", "sign-app.sh", "launchd", "hooks", "skills", "sdk", "dictation"
+                    "install-fsguard.sh", "sign-app.sh", "launchd", "hooks", "skills", "sdk", "dictation", "orca-plugin"
 
     # setup.sh copies everything into the user's account; opt paths survive upgrades
     (bin/"claude-acc-setup").write <<~SH
@@ -53,6 +53,10 @@ class ClaudeAcc < Formula
       Fan control is a small root daemon, installed separately:
         claude-acc fans install
 
+      The Orca plugin (status bar, panel, Cmd-J commands) installs with:
+        claude-acc orca install
+      then enable the plugin system and approve Claude Acc in Orca's Settings > Plugins.
+
       To keep agents from starting a second dev server of the same app, add the
       Claude Code hook from https://github.com/outof-place/claude-acc#dev-server-guard
 
@@ -72,5 +76,7 @@ class ClaudeAcc < Formula
     assert_path_exists libexec/"claude-acc-desktop"
     assert_path_exists libexec/"dictation/slownik.txt"
     assert_path_exists libexec/"sign-app.sh"
+    assert_path_exists libexec/"orca-plugin/orca-plugin.json"
+    assert_match "\"known\"", shell_output("/usr/bin/python3 #{libexec}/awake.py status --json")
   end
 end
