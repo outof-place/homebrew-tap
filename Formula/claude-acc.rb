@@ -1,8 +1,8 @@
 class ClaudeAcc < Formula
   desc "Menu bar control room for a Mac that runs Claude Code agents all day"
   homepage "https://github.com/outof-place/claude-acc"
-  url "https://github.com/outof-place/claude-acc/archive/refs/tags/v1.23.1.tar.gz"
-  sha256 "50c9cb33cd7147c54c495c7250fb9efee65aef63bfc45e856ec3c634cd79dee1"
+  url "https://github.com/outof-place/claude-acc/archive/refs/tags/v1.24.0.tar.gz"
+  sha256 "e4642fc8cf637e6f96a8f2363b431ca24ffccdec02f6f1f63a9020a5e5efc0e9"
   license "MIT"
   head "https://github.com/outof-place/claude-acc.git", branch: "main"
 
@@ -16,8 +16,13 @@ class ClaudeAcc < Formula
       contents = prefix/"Claude Acc.app/Contents"
       (contents/"MacOS").install ".build/release/ClaudeAcc"
       contents.install "Info.plist"
-      libexec.install ".build/release/fanctl", ".build/release/claude-acc-hook", ".build/release/claude-acc-pause"
+      libexec.install ".build/release/fanctl", ".build/release/claude-acc-hook", ".build/release/claude-acc-pause",
+                      ".build/release/claude-acc-desktop"
     end
+    # the desktop gateway helper keeps a fixed designated requirement, so its Screen Recording and
+    # Accessibility grants survive upgrades (same as install.sh)
+    system "codesign", "--force", "--sign", "-", "--identifier", "com.filip.claude-acc.desktop",
+           "-r=designated => identifier \"com.filip.claude-acc.desktop\"", libexec/"claude-acc-desktop"
     system "codesign", "--force", "--sign", "-", prefix/"Claude Acc.app"
 
     # setup.sh copies every *.py next to it, so new scripts come along without touching this list
@@ -28,7 +33,7 @@ class ClaudeAcc < Formula
     (bin/"claude-acc-setup").write <<~SH
       #!/bin/bash
       exec "#{opt_libexec}/setup.sh" --app "#{opt_prefix}/Claude Acc.app" --fanctl "#{opt_libexec}/fanctl" \\
-        --hook "#{opt_libexec}/claude-acc-hook" "$@"
+        --hook "#{opt_libexec}/claude-acc-hook" --desktop "#{opt_libexec}/claude-acc-desktop" "$@"
     SH
     # the real command lives in ~/.local/bin, which may not be on PATH
     (bin/"claude-acc").write <<~SH
@@ -64,6 +69,7 @@ class ClaudeAcc < Formula
     assert_match "Aktualizacje", shell_output("/usr/bin/python3 #{libexec}/updates.py status")
     assert_path_exists libexec/"claude-acc-hook"
     assert_path_exists libexec/"claude-acc-pause"
+    assert_path_exists libexec/"claude-acc-desktop"
     assert_path_exists libexec/"dictation/slownik.txt"
     assert_path_exists libexec/"sign-app.sh"
   end
