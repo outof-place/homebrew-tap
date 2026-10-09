@@ -1,8 +1,8 @@
 class ClaudeAcc < Formula
   desc "Menu bar control room for a Mac that runs Claude Code agents all day"
   homepage "https://github.com/outof-place/claude-acc"
-  url "https://github.com/outof-place/claude-acc/archive/refs/tags/v1.28.0.tar.gz"
-  sha256 "d4a501d66a297a0e58b2ca8a32b58ac92194951fd5827d8da10d80a59875092d"
+  url "https://github.com/outof-place/claude-acc/archive/refs/tags/v1.29.0.tar.gz"
+  sha256 "0e10f49a037b3c1651b5963e6cca2249e0b172def2a92f043a9d3cfb07eb2270"
   license "MIT"
   head "https://github.com/outof-place/claude-acc.git", branch: "main"
 
@@ -79,5 +79,6 @@ class ClaudeAcc < Formula
     assert_path_exists libexec/"sign-app.sh"
     assert_path_exists libexec/"orca-plugin/orca-plugin.json"
     assert_match "\"known\"", shell_output("/usr/bin/python3 #{libexec}/awake.py status --json")
+    assert_match "\"keychain_service\"", shell_output("/usr/bin/python3 #{libexec}/orcahost.py")
   end
 end
