@@ -27,7 +27,8 @@ class ClaudeAcc < Formula
 
     # setup.sh copies every *.py next to it, so new scripts come along without touching this list
     libexec.install Dir["*.py"], "janitor-root.sh", "perf-root.sh", "setup.sh", "install-fans.sh",
-                    "install-fsguard.sh", "sign-app.sh", "launchd", "hooks", "skills", "sdk", "dictation", "orca-plugin"
+                    "install-fsguard.sh", "sign-app.sh", "launchd", "hooks", "skills", "sdk", "dictation",
+                    "orca-plugin"
 
     # setup.sh copies everything into the user's account; opt paths survive upgrades
     (bin/"claude-acc-setup").write <<~SH
