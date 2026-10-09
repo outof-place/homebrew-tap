@@ -22,7 +22,7 @@ class ClaudeAcc < Formula
 
     # setup.sh copies every *.py next to it, so new scripts come along without touching this list
     libexec.install Dir["*.py"], "janitor-root.sh", "perf-root.sh", "setup.sh", "install-fans.sh",
-                    "install-fsguard.sh", "launchd", "hooks", "skills", "sdk"
+                    "install-fsguard.sh", "sign-app.sh", "launchd", "hooks", "skills", "sdk", "dictation"
 
     # setup.sh copies everything into the user's account; opt paths survive upgrades
     (bin/"claude-acc-setup").write <<~SH
@@ -64,5 +64,7 @@ class ClaudeAcc < Formula
     assert_match "Aktualizacje", shell_output("/usr/bin/python3 #{libexec}/updates.py status")
     assert_path_exists libexec/"claude-acc-hook"
     assert_path_exists libexec/"claude-acc-pause"
+    assert_path_exists libexec/"dictation/slownik.txt"
+    assert_path_exists libexec/"sign-app.sh"
   end
 end
