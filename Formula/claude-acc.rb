@@ -1,8 +1,8 @@
 class ClaudeAcc < Formula
   desc "Menu bar control room for a Mac that runs Claude Code agents all day"
   homepage "https://github.com/outof-place/claude-acc"
-  url "https://github.com/outof-place/claude-acc/archive/refs/tags/v1.31.5.tar.gz"
-  sha256 "47a2e494aa2734324d0a14280eadeaecb94c2e7ef246f5c3bad55178fed5e565"
+  url "https://github.com/outof-place/claude-acc/archive/refs/tags/v1.31.6.tar.gz"
+  sha256 "98203d7e85545f4098ca9277cbca165cec10a0f9d11e8d5c245e37bffa22eb08"
   license "MIT"
   head "https://github.com/outof-place/claude-acc.git", branch: "main"
 
