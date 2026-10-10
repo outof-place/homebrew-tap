@@ -1,8 +1,8 @@
 class ClaudeAcc < Formula
   desc "Menu bar control room for a Mac that runs Claude Code agents all day"
   homepage "https://github.com/outof-place/claude-acc"
-  url "https://github.com/outof-place/claude-acc/archive/refs/tags/v1.31.1.tar.gz"
-  sha256 "0e9de2582610639d528802d77d8598eb1098ff18576470008ec951c4f0f154db"
+  url "https://github.com/outof-place/claude-acc/archive/refs/tags/v1.31.2.tar.gz"
+  sha256 "04f13f96dd4ce7913d220a994c567515acb895fe913824c927b28af0d5b9fd4c"
   license "MIT"
   head "https://github.com/outof-place/claude-acc.git", branch: "main"
 
@@ -26,9 +26,9 @@ class ClaudeAcc < Formula
     system "codesign", "--force", "--sign", "-", prefix/"Claude Acc.app"
 
     # setup.sh copies every *.py next to it, so new scripts come along without touching this list
-    libexec.install Dir["*.py"], "janitor-root.sh", "perf-root.sh", "setup.sh", "install-fans.sh",
-                    "install-fsguard.sh", "sign-app.sh", "launchd", "hooks", "skills", "sdk", "dictation",
-                    "orca-plugin"
+    libexec.install Dir["*.py"], "janitor-root.sh", "perf-root.sh", "root-install.sh", "root-run.sh", "setup.sh",
+                    "install-fans.sh", "install-fsguard.sh", "sign-app.sh", "launchd", "hooks", "skills", "sdk",
+                    "dictation", "orca-plugin"
 
     # setup.sh copies everything into the user's account; opt paths survive upgrades
     (bin/"claude-acc-setup").write <<~SH
@@ -77,6 +77,7 @@ class ClaudeAcc < Formula
     assert_path_exists libexec/"claude-acc-desktop"
     assert_path_exists libexec/"dictation/slownik.txt"
     assert_path_exists libexec/"sign-app.sh"
+    assert_path_exists libexec/"root-run.sh"
     assert_path_exists libexec/"orca-plugin/orca-plugin.json"
     assert_match "\"known\"", shell_output("/usr/bin/python3 #{libexec}/awake.py status --json")
     assert_match "\"keychain_service\"", shell_output("/usr/bin/python3 #{libexec}/orcahost.py")
