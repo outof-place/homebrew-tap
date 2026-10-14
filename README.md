@@ -1,11 +1,19 @@
 # outof-place/tap
 
-Homebrew formulae by [outof-place](https://github.com/outof-place).
+Homebrew formulae and casks by [outof-place](https://github.com/outof-place).
+
+```sh
+brew install --cask outof-place/tap/pod
+```
 
 ```sh
 brew install outof-place/tap/claude-acc
 claude-acc-setup
 ```
+
+| Cask | What it is |
+| --- | --- |
+| [`pod`](https://github.com/outof-place/pod) | Pod: run a pod of coding agents in parallel. Apple silicon, macOS 27 or later. Updates itself; the CLI is `podx` |
 
 | Formula | What it is |
 | --- | --- |
