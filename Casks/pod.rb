@@ -36,10 +36,11 @@ cask "pod" do
   # claude-accounts, claude-profiles and Codex homes survive: claude-acc keeps using those
   # account stores after Pod is gone.
   # Pod's terminal daemon runs as a launchd job in the user's GUI session, one job per launch,
-  # labelled codes.pod.daemon.<profile hash>.<launch id>. Its plist sits in Application Support/Pod/
-  # daemon-launchd, never in a LaunchAgents folder, so launchd drops the job at logout. Only zap
-  # removes it: Homebrew runs `uninstall launchctl:` on `brew upgrade` too, which would end the
-  # terminal sessions an update keeps. The job hosts Pod's terminals: zap from another terminal.
+  # labelled codes.pod.daemon.<profile hash>.<launch id>. Its plist is written to Application
+  # Support/Pod/daemon/launchd (zapped with daemon below) and deleted once bootstrapped, never to a
+  # LaunchAgents folder, and Pod boots out a job whose daemon has exited. Only zap stops a running
+  # one: Homebrew runs `uninstall launchctl:` on `brew upgrade` too, which would end the terminal
+  # sessions an update keeps. The job hosts Pod's terminals: zap from another terminal.
   zap launchctl: "codes.pod.daemon.*",
       trash:     [
         "~/.pod",
@@ -55,7 +56,6 @@ cask "pod" do
         "~/Library/Application Support/Pod/Crashpad",
         "~/Library/Application Support/Pod/daemon",
         "~/Library/Application Support/Pod/daemon-host.noindex",
-        "~/Library/Application Support/Pod/daemon-launchd",
         "~/Library/Application Support/Pod/DawnGraphiteCache",
         "~/Library/Application Support/Pod/DawnWebGPUCache",
         "~/Library/Application Support/Pod/declarative_performance_observer.db",
