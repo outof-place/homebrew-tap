@@ -96,4 +96,10 @@ cask "pod" do
         "~/Library/Preferences/codes.pod.native.plist",
         "~/Library/Saved Application State/codes.pod.native.savedState",
       ]
+
+  caveats <<~EOS
+    `brew uninstall --zap #{token}` stops the daemon that runs Pod's terminal sessions.
+    Run it from a terminal outside Pod (Terminal.app, for example): inside Pod it ends
+    its own terminal, and with it the zap.
+  EOS
 end
