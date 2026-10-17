@@ -1,6 +1,6 @@
 cask "pod" do
-  version "1.0.0-rc3"
-  sha256 "5f0338832a3ec2353438a1fc343ef6f3918dc2d402e94c5993b93f079c1144d8"
+  version "1.0.0-rc4"
+  sha256 "bf3e2d2709a41c41328f1d864a712bb74fc648496e8c1266cd06f54bc1dc91bc"
 
   url "https://github.com/outof-place/pod/releases/download/v#{version}/Pod-#{version}.dmg"
   name "Pod"
